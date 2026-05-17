@@ -283,6 +283,8 @@ Total if running continuously: roughly $100 per month. But you should not run it
 
 ## Application Design
 
+![CloudPulse Code Architecture](diagrams/cloudpulse_code_architecture.png)
+
 The TypeScript application follows clean architecture principles. If you are a software engineer, you will appreciate the structure:
 
 - Result pattern (discriminated unions) for error handling instead of thrown exceptions
