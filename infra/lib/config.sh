@@ -1,0 +1,46 @@
+#!/bin/bash
+# CloudPulse Infrastructure Configuration
+# All shared variables used across provisioning scripts
+
+# Project identification
+PROJECT_NAME="cloudpulse"
+ENV_FILE="$(dirname "${BASH_SOURCE[0]}")/../env/resources.env"
+
+# AWS Region
+AWS_REGION="${AWS_REGION:-us-east-1}"
+
+# VPC Configuration
+VPC_CIDR="10.0.0.0/16"
+PUBLIC_SUBNET_1_CIDR="10.0.1.0/24"
+PUBLIC_SUBNET_2_CIDR="10.0.2.0/24"
+PRIVATE_SUBNET_1_CIDR="10.0.3.0/24"
+PRIVATE_SUBNET_2_CIDR="10.0.4.0/24"
+
+# Compute Configuration
+INSTANCE_TYPE="t3.micro"
+EBS_VOLUME_SIZE=8
+EBS_VOLUME_TYPE="gp3"
+ASG_MIN=2
+ASG_MAX=4
+ASG_DESIRED=2
+HEALTH_CHECK_GRACE_PERIOD=300
+SCALE_COOLDOWN=300
+
+# ALB Configuration
+HEALTH_CHECK_PATH="/health"
+HEALTH_CHECK_INTERVAL=30
+HEALTH_CHECK_TIMEOUT=5
+HEALTHY_THRESHOLD=2
+UNHEALTHY_THRESHOLD=3
+APP_PORT=3000
+
+# CloudWatch Alarms
+CPU_HIGH_THRESHOLD=70
+CPU_LOW_THRESHOLD=30
+ALARM_EVALUATION_PERIODS=2
+ALARM_PERIOD=60
+
+# IAM
+ROLE_NAME="${PROJECT_NAME}-ec2-role"
+INSTANCE_PROFILE_NAME="${PROJECT_NAME}-instance-profile"
+POLICY_NAME="${PROJECT_NAME}-ec2-policy"
