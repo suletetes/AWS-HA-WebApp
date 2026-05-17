@@ -338,7 +338,3 @@ After deploying and experimenting with this project, you will be able to:
 - Write infrastructure provisioning scripts that are idempotent and well-documented
 - Tear down infrastructure cleanly without leaving orphaned resources
 - Access instances securely via SSM without managing SSH keys
-
-## License
-
-MIT
