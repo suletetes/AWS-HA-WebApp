@@ -1,0 +1,5 @@
+app/node_modules/
+app/test-logs/
+app/dist/
+app/app.log.2026-05-17
+app/.b5b71cfba9cb27caaf066a737634e542cf02dd31-audit.json
