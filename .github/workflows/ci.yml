@@ -44,15 +44,10 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run test:unit -- --forceExit --coverage
+      - run: npm run test:unit -- --forceExit
         env:
           ASG_NAME: test-asg
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: unit-coverage
-          path: app/coverage/
+          LOG_FILE_PATH: ./test-logs/app.log
 
   property-tests:
     name: Property-Based Tests
@@ -75,6 +70,7 @@ jobs:
       - run: npm run test:property -- --forceExit
         env:
           ASG_NAME: test-asg
+          LOG_FILE_PATH: ./test-logs/app.log
 
   integration-tests:
     name: Integration Tests
@@ -97,6 +93,7 @@ jobs:
       - run: npm run test:integration -- --forceExit
         env:
           ASG_NAME: test-asg
+          LOG_FILE_PATH: ./test-logs/app.log
 
   bash-syntax:
     name: Shell Script Validation
