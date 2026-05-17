@@ -12,22 +12,17 @@ The infrastructure is provisioned entirely through AWS CLI shell scripts. No Ter
 
 ## Architecture
 
-The system spans two Availability Zones for high availability:
+The system spans two Availability Zones for high availability.
 
-```
-Internet
-    |
-    v
-[Application Load Balancer] (public subnets, port 80)
-    |
-    +---> [EC2 Instance] (private subnet AZ-1, port 3000)
-    |
-    +---> [EC2 Instance] (private subnet AZ-2, port 3000)
-    
-Private instances reach the internet through NAT Gateways (one per AZ).
-Auto Scaling Group maintains 2-4 instances based on CPU utilization.
-CloudWatch alarms trigger scaling policies automatically.
-```
+![CloudPulse Architecture](diagrams/cloudpulse_architecture.png)
+
+Traffic flows from the internet through an Internet Gateway into the ALB sitting in public subnets. The ALB forwards requests to application instances in private subnets on port 3000. Instances reach the internet for AWS API calls through NAT Gateways. CloudWatch monitors CPU and triggers the Auto Scaling Group to add or remove instances as needed.
+
+### Network Layout
+
+![CloudPulse Network](diagrams/cloudpulse_network.png)
+
+Each Availability Zone has its own public subnet (hosting the ALB and a NAT Gateway) and its own private subnet (hosting application instances). Private instances have no public IP. All outbound traffic from private subnets routes through the NAT Gateway in the same AZ for fault isolation.
 
 ## AWS Services Covered
 
