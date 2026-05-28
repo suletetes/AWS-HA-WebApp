@@ -58,13 +58,20 @@ cat > package.json << 'PACKAGE_EOF'
 }
 PACKAGE_EOF
 
-# NOTE: In a real deployment, you would:
-# 1. Pull pre-built dist/ from S3: aws s3 sync s3://your-bucket/cloudpulse/dist ./dist
-# 2. Or use CodeDeploy for automated deployments
-# 3. Or clone from a git repository
-# For now, we assume the dist/ folder is available via S3
-# Uncomment and configure the following line for your S3 bucket:
-# aws s3 sync s3://${DEPLOY_BUCKET}/cloudpulse/latest/ "$APP_DIR/" --region us-east-1
+# Deploy application code from S3
+# Resolve the deploy bucket from instance tags (set by the launch template)
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region || echo "us-east-1")
+DEPLOY_BUCKET=$(aws ec2 describe-tags --filters "Name=resource-id,Values=${INSTANCE_ID}" "Name=key,Values=DeployBucket" --region "${AWS_REGION}" --query 'Tags[0].Value' --output text 2>/dev/null || echo "")
+
+# Fallback: use naming convention if tag not found
+if [[ -z "$DEPLOY_BUCKET" || "$DEPLOY_BUCKET" == "None" ]]; then
+  ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+  DEPLOY_BUCKET="cloudpulse-deploy-${ACCOUNT_ID}"
+fi
+
+echo "Pulling app from s3://${DEPLOY_BUCKET}/cloudpulse/latest/"
+aws s3 sync "s3://${DEPLOY_BUCKET}/cloudpulse/latest/" "$APP_DIR/" --region "${AWS_REGION}"
 
 # ============================================================
 # Step 4: Install production dependencies

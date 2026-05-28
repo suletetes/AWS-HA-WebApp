@@ -9,6 +9,9 @@
 
 set -uo pipefail
 
+# Prevent Git Bash on Windows from mangling paths (e.g., /health -> C:/Program Files/Git/health)
+export MSYS_NO_PATHCONV=1
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/config.sh"
 source "${SCRIPT_DIR}/lib/common.sh"

@@ -9,6 +9,12 @@ ENV_FILE="$(dirname "${BASH_SOURCE[0]}")/../env/resources.env"
 # AWS Region
 AWS_REGION="${AWS_REGION:-us-east-1}"
 
+# AWS Account ID (resolved dynamically)
+AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID:-$(aws sts get-caller-identity --query Account --output text 2>/dev/null || echo 'UNKNOWN')}"
+
+# S3 Deployment Bucket (override with env var or uses default naming convention)
+DEPLOY_BUCKET="${DEPLOY_BUCKET:-cloudpulse-deploy-${AWS_ACCOUNT_ID}}"
+
 # VPC Configuration
 VPC_CIDR="10.0.0.0/16"
 PUBLIC_SUBNET_1_CIDR="10.0.1.0/24"
