@@ -71,7 +71,8 @@ POLICY_DOCUMENT='{
       "Sid": "EC2Describe",
       "Effect": "Allow",
       "Action": [
-        "ec2:DescribeInstances"
+        "ec2:DescribeInstances",
+        "ec2:DescribeTags"
       ],
       "Resource": "*"
     },
@@ -83,6 +84,18 @@ POLICY_DOCUMENT='{
         "autoscaling:DescribeScalingActivities"
       ],
       "Resource": "*"
+    },
+    {
+      "Sid": "S3DeployBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::${DEPLOY_BUCKET}",
+        "arn:aws:s3:::${DEPLOY_BUCKET}/*"
+      ]
     }
   ]
 }'

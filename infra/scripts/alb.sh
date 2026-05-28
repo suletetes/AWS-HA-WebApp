@@ -208,7 +208,7 @@ TG_ARN=$(aws elbv2 create-target-group \
   --vpc-id "$VPC_ID" \
   --target-type instance \
   --health-check-protocol HTTP \
-  --health-check-path "$HEALTH_CHECK_PATH" \
+  --health-check-path "${HEALTH_CHECK_PATH}" \
   --health-check-interval-seconds "$HEALTH_CHECK_INTERVAL" \
   --health-check-timeout-seconds "$HEALTH_CHECK_TIMEOUT" \
   --healthy-threshold-count "$HEALTHY_THRESHOLD" \

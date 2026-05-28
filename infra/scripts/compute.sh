@@ -108,6 +108,10 @@ LAUNCH_TEMPLATE_DATA=$(cat <<EOF
         {
           "Key": "Project",
           "Value": "${PROJECT_NAME}"
+        },
+        {
+          "Key": "DeployBucket",
+          "Value": "${DEPLOY_BUCKET}"
         }
       ]
     }
