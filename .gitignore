@@ -11,6 +11,3 @@ infra/env/resources.env
 # Diagram outputs (regenerate with python diagrams/*.py)
 diagrams/*.png
 
-# Editor/OS
-note.txt
-new.md
